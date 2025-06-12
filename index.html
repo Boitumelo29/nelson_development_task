@@ -68,7 +68,7 @@
 
       try {
         const res = await fetch(testUrl);
-        const data = await res.text(); // Response may not always be JSON
+        const data = await res.text(); 
         responseBox.innerText = data;
       } catch (error) {
         responseBox.innerText = 'Error: ' + error.message;
