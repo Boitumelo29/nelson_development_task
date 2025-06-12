@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Junior Dev API Tester</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 2rem;
+      background: #f9f9f9;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .response {
+      margin-top: 2rem;
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 1rem;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Junior Developer API Tester</h1>
+
+  <label for="email">Your Email:</label>
+  <input type="email" id="email" placeholder="tumijane99@gmail.com" required />
+
+  <label for="apiUrl">Your API Endpoint URL:</label>
+  <input type="url" id="apiUrl" placeholder="" required />
+
+  <button onclick="testApi()">Run Test</button>
+
+  <div class="response" id="responseBox"></div>
+
+  <script>
+    async function testApi() {
+      const email = document.getElementById('email').value;
+      const url = document.getElementById('apiUrl').value;
+      const responseBox = document.getElementById('responseBox');
+
+      if (!email || !url) {
+        alert('Please fill in both fields.');
+        return;
+      }
+
+      const testUrl = `https://yhxzjyykdsfkdrmdxgho.supabase.co/functions/v1/junior-dev?url=${encodeURIComponent(url)}&email=${encodeURIComponent(email)}`;
+
+      responseBox.innerText = 'Testing... Please wait.';
+
+      try {
+        const res = await fetch(testUrl);
+        const data = await res.text(); // Response may not always be JSON
+        responseBox.innerText = data;
+      } catch (error) {
+        responseBox.innerText = 'Error: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
