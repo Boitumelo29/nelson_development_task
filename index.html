@@ -3,22 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Junior Dev API Tester</title>
+  <title>Nelson Development Task</title>
   <style>
     body {
       font-family: sans-serif;
       margin: 2rem;
       background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #2a2a2a;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      text-align: start;
+      width: 500px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInContainer 1s ease-out forwards;
+    }
+    @keyframes fadeInContainer {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     label {
       display: block;
       margin-top: 1rem;
       font-weight: bold;
+      color: #fff;
+    }
+
+    h1 {
+      color: #fff;
+      text-align: center;
     }
     input {
       width: 100%;
       padding: 0.5rem;
       margin-top: 0.25rem;
+      transition: box-shadow 0.3s, border 0.3s;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input:focus {
+      outline: none;
+      border: 1.5px solid #4CAF50;
+      box-shadow: 0 0 8px #4CAF5033;
     }
     button {
       margin-top: 1.5rem;
@@ -28,6 +65,15 @@
       color: white;
       border: none;
       cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+    button:hover {
+      background: #388e3c;
+      transform: scale(1.05);
+    }
+    button:active {
+      background: #256029;
+      transform: scale(0.97);
     }
     .response {
       margin-top: 2rem;
@@ -35,13 +81,23 @@
       background: #fff;
       padding: 1rem;
       border: 1px solid #ccc;
+      border-radius: 6px;
+      min-height: 2.5rem;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+    .response.visible {
+      opacity: 1;
+      transform: scale(1);
     }
   </style>
 </head>
 <body>
-  <h1>Junior Developer API Tester</h1>
+  <div class="container">
+    <h1>Nelson Development Junior Developer API </h1>
 
-  <label for="email">Your Email:</label>
+    <label for="email">Your Email:</label>
   <input type="email" id="email" placeholder="youremail@gmail.com" required />
 
   <label for="apiUrl">Your API Endpoint URL:</label>
@@ -50,6 +106,7 @@
   <button onclick="testApi()">Run Test</button>
 
   <div class="response" id="responseBox"></div>
+  </div>
 
   <script>
     async function testApi() {
@@ -65,15 +122,26 @@
       const testUrl = `https://yhxzjyykdsfkdrmdxgho.supabase.co/functions/v1/junior-dev?url=${url}&email=${email}`;
 
       responseBox.innerText = 'Testing... Please wait.';
+      responseBox.classList.add('visible');
 
       try {
         const res = await fetch(testUrl);
         const data = await res.text(); 
         responseBox.innerText = data;
+        responseBox.classList.add('visible');
       } catch (error) {
         responseBox.innerText = 'Error: ' + error.message;
+        responseBox.classList.add('visible');
       }
     }
+    // Animate response box on update
+    const responseBox = document.getElementById('responseBox');
+    const observer = new MutationObserver(() => {
+      responseBox.classList.remove('visible');
+      void responseBox.offsetWidth; // force reflow
+      responseBox.classList.add('visible');
+    });
+    observer.observe(responseBox, { childList: true });
   </script>
 </body>
 </html>
