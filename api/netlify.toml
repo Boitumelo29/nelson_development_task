@@ -1,8 +1,0 @@
-[build]
-  functions = "functions"
-  publish = "."
-
-[[redirects]]
-  from = "/api/sort-string"
-  to = "/.netlify/functions/sort-string"
-  status = 200
